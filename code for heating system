@@ -1,0 +1,89 @@
+//the libary for the lcd 
+#include <LiquidCrystal.h>
+//pins for the lcd screen
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2; 
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+//setting up all the pins and set the values of them 
+const int ledPin = 9;
+const int buttonPin = 10;
+int pushed = 0; 
+const int buttonPin2 = 6;
+int pushed2 = 0;
+float Temperature();
+float Temp(27.00);
+
+void setup()
+{
+  //A0 is the thermistor pin
+  pinMode(A0, INPUT);
+  pinMode(ledPin, OUTPUT);
+//have to put the button pin in
+  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin2, INPUT);
+  lcd.begin(16,2); 
+
+ //allowing it to print to the Serial monitor 
+  Serial.begin(9600);
+}
+//setting up the tempurature
+//allowing it to be printed and read in celsius 
+  float Temperature() {
+  float data = analogRead(A0);
+  return (5.0 * data * 100.0) / 1024.0;
+}
+ 
+void loop()
+{
+  //when the button is pushed 
+  //button2 heating
+  //button colling
+  pushed = digitalRead(buttonPin);
+  pushed2 = digitalRead(buttonPin2);
+  lcd.setCursor(0,0);
+  digitalWrite(ledPin, HIGH);
+  lcd.print("");
+  lcd.print(Temperature()); lcd.print(" *C");
+  //temperature will go down
+  if (pushed == HIGH){
+      lcd.setCursor(0, 1);
+      lcd.print(Temp --);
+      digitalWrite(ledPin, LOW);
+      delay(200);
+    }
+  //temperature will go up 
+  if (pushed2 == HIGH){
+      lcd.setCursor(0, 1);
+      lcd.print(Temp ++);
+      digitalWrite(ledPin, LOW);
+      delay(200);
+    }
+    
+    lcd.setCursor(0, 1);
+    lcd.print("Set = "); lcd.print(Temp); lcd.print(" *C");
+    lcd.setCursor(0, 0);
+    //stting the data up for the colling 
+    if (Temp < Temperature()) {
+      delay(250);
+      lcd.print(" Cooling");
+      delay(1000);
+    }
+    setting up the data for the heating 
+    if (Temp >Temperature()) {
+      lcd.setCursor(0,0);
+      delay(250);
+      lcd.print(" Heating");
+      delay(1000);
+    }
+
+  lcd.setCursor(0, 0);
+  float c = Temperature();
+  //prints to the Serial monitor
+  Serial.print("Temperature: ");
+  Serial.println(c);
+  //prints to the lcd screen
+  lcd.print("temp:");
+  lcd.print(c);
+  delay(1000);
+  //restarts the lcd 
+  lcd.clear();
+}
