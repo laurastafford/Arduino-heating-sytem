@@ -28,8 +28,8 @@ void setup()
 //setting up the tempurature
 //allowing it to be printed and read in celsius 
   float Temperature() {
-  float data = analogRead(A0);
-  return (5.0 * data * 100.0) / 1024.0;
+  float reading = analogRead(A0);
+  return (5.0 * reading * 100.0) / 1024.0;
 }
  
 void loop()
@@ -61,13 +61,13 @@ void loop()
     lcd.setCursor(0, 1);
     lcd.print("Set = "); lcd.print(Temp); lcd.print(" *C");
     lcd.setCursor(0, 0);
-    //stting the data up for the colling 
+    //setting the data up for the colling 
     if (Temp < Temperature()) {
       delay(250);
       lcd.print(" Cooling");
       delay(1000);
     }
-    setting up the data for the heating 
+    //setting up the data for the heating 
     if (Temp >Temperature()) {
       lcd.setCursor(0,0);
       delay(250);
