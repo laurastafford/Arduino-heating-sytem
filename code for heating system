@@ -59,7 +59,9 @@ void loop()
     }
     
     lcd.setCursor(0, 1);
-    lcd.print("Set = "); lcd.print(Temp); lcd.print(" *C");
+    lcd.print("Set = "); 
+    lcd.print(Temp); 
+    lcd.print(" *C");
     lcd.setCursor(0, 0);
     //setting the data up for the colling 
     if (Temp < Temperature()) {
